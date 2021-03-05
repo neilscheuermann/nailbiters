@@ -4,8 +4,8 @@ defmodule Nailbiters.NBA do
   def find_live_close_games() do
     todays_date = get_formatted_date(DateTime.utc_now())
 
-    # TODO: Use Timex to get currnet date in PDT timezone
-    todays_date = "20210221"
+    # TODO: Use Timex to get current date in PDT timezone
+    todays_date = "20210304"
 
     # 1. Get all today's games.
     {:ok, todays_games} = fetch_daily_games(todays_date)
@@ -21,7 +21,10 @@ defmodule Nailbiters.NBA do
       |> Enum.map(fn game -> extract_game_data(todays_date, game) end)
       |> IO.inspect(label: "live_nailbiters>>>")
 
-    # 4. Push live_nailbiter data through Subs to client
+    # # 4. Push live_nailbiter data through Subs to client
+    NailbitersWeb.Endpoint.broadcast!("live_games:lobby", "new_game_data", %{
+      live_nailbiters: live_nailbiters
+    })
   end
 
   defp extract_game_data(date, game) do

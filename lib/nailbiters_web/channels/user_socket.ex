@@ -1,8 +1,8 @@
 defmodule NailbitersWeb.UserSocket do
   use Phoenix.Socket
 
-  ## Channels
-  # channel "room:*", NailbitersWeb.RoomChannel
+  # Channels
+  channel "live_games:*", NailbitersWeb.LiveGamesChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
